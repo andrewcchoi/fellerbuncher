@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "disable_existing_loggers": false,
+  "formatters": {
+    "simple": {
+      "format": "%(asctime)s: %(message)s",
+      "datefmt": "%Y-%m-%dT%H:%M:%S%z"
+    },
+    "detailed": {
+      "format": "%(asctime)s [%(levelname)s|%(module)s|L%(lineno)d]: %(message)s",
+      "datefmt": "%Y-%m-%dT%H:%M:%S%z"
+    },
+    "json": {
+      "()": "harvester.HarvestJSONFormatter",
+      "fmt_keys": {
+        "timestamp": "timestamp",
+        "level": "levelname",
+        "message": "message",
+        "logger": "name",
+        "module": "module",
+        "function": "funcName",
+        "line": "lineno",
+        "thread_name": "threadName"
+      }
+    }
+  },
+  "filters": {
+    "no_errors": {
+      "()": "harvester.NonErrorFilter"
+    }
+  },
+  "handlers": {
+    "stdout": {
+      "class": "logging.StreamHandler",
+      "formatter": "simple",
+      "stream": "ext://sys.stdout",
+      "filters": ["no_errors"]
+    },
+    "stderr": {
+      "class": "logging.StreamHandler",
+      "level": "WARNING",
+      "formatter": "detailed",
+      "stream": "ext://sys.stderr"
+    },
+    "fellerbuncher_json": {
+      "class": "logging.handlers.RotatingFileHandler",
+      "level": "DEBUG",
+      "formatter": "json",
+      "filename": "logs/fellerbuncher.log.jsonl",
+      "maxBytes": 10000,
+      "backupCount": 3
+    },
+    "queue_handler": {
+      "class": "logging.handlers.QueueHandler",
+      "handlers": [
+        "stdout",
+        "stderr",
+        "fellerbuncher_json"
+      ],
+      "respect_handler_level": true
+    }
+  },
+  "loggers": {
+    "root": {
+      "level": "DEBUG",
+      "handlers": [
+        "queue_handler"
+      ]
+    }
+  }
+}
