@@ -59,7 +59,7 @@
       "toaddrs": [""],
       "subject": "Fellerbuncher Error",
       "credentials": ["username", "password"],
-      "secure": [""],
+      "secure": (),
       "timeout": 5
     },
     "queue_handler": {
@@ -67,7 +67,8 @@
       "handlers": [
         "stdout",
         "stderr",
-        "fellerbuncher_json"
+        "fellerbuncher_json",
+        "fellerbuncher_mail"
       ],
       "respect_handler_level": true
     }
