@@ -50,12 +50,25 @@
       "maxBytes": 10000,
       "backupCount": 3
     },
+    "fellerbuncher_mail": {
+      "class": "logging.handlers.SMTPHandler",
+      "level": "ERROR",
+      "formatter": "json",
+      "mailhost": ["smtp.example.com", 587],
+      "fromaddr": ",",
+      "toaddrs": [""],
+      "subject": "Fellerbuncher Error",
+      "credentials": ["username", "password"],
+      "secure": (),
+      "timeout": 5
+    },
     "queue_handler": {
       "class": "logging.handlers.QueueHandler",
       "handlers": [
         "stdout",
         "stderr",
-        "fellerbuncher_json"
+        "fellerbuncher_json",
+        "fellerbuncher_mail"
       ],
       "respect_handler_level": true
     }

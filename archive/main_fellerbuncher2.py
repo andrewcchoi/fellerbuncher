@@ -4,7 +4,7 @@ import logging.config
 import logging.handlers
 import pathlib
 
-from fellerbuncher import Fellerbuncher
+from log_harvester import Fellerbuncher
 
 lumberjack = logging.getLogger(__name__)
 
