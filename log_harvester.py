@@ -34,12 +34,13 @@ def logHarvestConfiguration(
         "fmt_keys": {
           "timestamp": "timestamp",
           "level": "levelname",
-          "message": "message",
+          "thread_name": "threadName",
+          "task_name": "taskName",
           "logger": "name",
           "module": "module",
           "function": "funcName",
           "line": "lineno",
-          "thread_name": "threadName"
+          "message": "message"
         }
       }
     },
@@ -51,6 +52,7 @@ def logHarvestConfiguration(
     "handlers": {
       "stdout": {
         "class": "logging.StreamHandler",
+        "level": "INFO",
         "formatter": "simple",
         "stream": "ext://sys.stdout",
         "filters": ["no_errors"]
@@ -66,14 +68,22 @@ def logHarvestConfiguration(
         "level": "DEBUG",
         "formatter": "json",
         "filename": "logs/fellerbuncher.log.jsonl",
-        "maxBytes": 10000,
+        "maxBytes": 400000,
+        "backupCount": 3
+      },
+      "fellerbuncher_json_error": {
+        "class": "logging.handlers.RotatingFileHandler",
+        "level": "ERROR",
+        "formatter": "json",
+        "filename": "logs/fellerbuncher_error.log.jsonl",
+        "maxBytes": 400000,
         "backupCount": 3
       },
       "fellerbuncher_mail": {
         "class": "logging.handlers.SMTPHandler",
         "level": "ERROR",
         "formatter": "json",
-        "mailhost": (host,port),
+        "mailhost": (host,int(port)),
         "fromaddr": sender,
         "toaddrs": to,
         "subject": "Fellerbuncher Error",
@@ -87,6 +97,7 @@ def logHarvestConfiguration(
           "stdout",
           "stderr",
           "fellerbuncher_json",
+          "fellerbuncher_json_error",
           "fellerbuncher_mail"
         ],
         "respect_handler_level": True
